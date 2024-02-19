@@ -14,7 +14,7 @@ def data_partition(fname):
     user_test = {}
     # assume user/item index starting from 1
     # f = open('data/%s.txt' % fname, 'r')
-    User = open('data/%s/tst' % fname, 'r')
+    User = open('data/%s/tst' % fname, 'rb')
     # for line in f:
     #     u, i = line.rstrip().split(' ')
     #     u = int(u)
