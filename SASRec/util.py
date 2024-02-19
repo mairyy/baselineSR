@@ -23,6 +23,7 @@ def data_partition(fname):
     #     itemnum = max(i, itemnum)
     #     User[u].append(i)
     for user, items in enumerate(User):
+        items = [int(item) for item in items]
         nfeedback = len(items)
         itemnum = max(items, itemnum)
         # nfeedback = len(User[user])
