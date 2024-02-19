@@ -1,5 +1,6 @@
 from modules import *
 
+tf.to_float = lambda x: tf.cast(x, tf.float32)
 
 class Model():
     def __init__(self, usernum, itemnum, args, reuse=None):
