@@ -22,9 +22,10 @@ def data_partition(fname):
     #     usernum = max(u, usernum)
     #     itemnum = max(i, itemnum)
     #     User[u].append(i)
-
+    usernum = len(User)
     for user, items in enumerate(User):
         nfeedback = len(items)
+        itemnum = max(items, itemnum)
         # nfeedback = len(User[user])
         if nfeedback < 3:
             user_train[user+1] = items
