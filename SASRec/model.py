@@ -3,6 +3,7 @@ from modules import *
 
 class Model():
     def __init__(self, usernum, itemnum, args, reuse=None):
+        tf.compat.v1.disable_eager_execution() #<--- Disable eager execution
         self.is_training = tf.compat.v1.placeholder(tf.bool, shape=())
         self.u = tf.compat.v1.placeholder(tf.int32, shape=(None))
         self.input_seq = tf.compat.v1.placeholder(tf.int32, shape=(None, args.maxlen))
