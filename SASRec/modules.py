@@ -114,7 +114,7 @@ def embedding(inputs,
     ```    
     '''
     with tf.compat.v1.variable_scope(scope, reuse=reuse):
-        lookup_table = tf.get_variable('lookup_table',
+        lookup_table = tf.compat.v1.get_variable('lookup_table',
                                        dtype=tf.float32,
                                        shape=[vocab_size, num_units],
                                        #initializer=tf.contrib.layers.xavier_initializer(),
