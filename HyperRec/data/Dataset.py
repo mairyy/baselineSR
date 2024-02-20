@@ -55,6 +55,7 @@ def data_partition_neg(args):
         year = int(datetime.datetime.fromtimestamp(int(t)).strftime("%Y")) # Day of the year as a decimal number [001,366]
         month = int(datetime.datetime.fromtimestamp(int(t)).strftime("%m"))        
         cur_u = u
+        print('1', pre_u, cur_u)
         if i in mapp:
             if cur_u == pre_u:
                 tmp = [int(mapp[i]), t]
@@ -64,6 +65,7 @@ def data_partition_neg(args):
                 usernum += 1
                 tmp = [int(mapp[i]), t]
                 raw[usernum+1].append(tmp)
+            print('2', pre_u, cur_u, usernum)
     #     u = int(u)
     #     i = int(i)
         # year = int(datetime.datetime.fromtimestamp(int(t)).strftime("%Y")) # Day of the year as a decimal number [001,366]
