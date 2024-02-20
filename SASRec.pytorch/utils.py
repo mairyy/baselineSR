@@ -3,6 +3,7 @@ import copy
 import torch
 import random
 import numpy as np
+import pickle
 from collections import defaultdict
 from multiprocessing import Process, Queue
 
@@ -82,7 +83,8 @@ def data_partition(fname):
     user_test = {}
     # assume user/item index starting from 1
         # f = open('data/%s.txt' % fname, 'r')
-    User = open('data/%s/tst' % fname, 'rb')
+    with open('data/%s/tst' % fname, 'rb') as out:
+        User - pickle.load(out)
     # for line in f:
     #     u, i = line.rstrip().split(' ')
     #     u = int(u)
