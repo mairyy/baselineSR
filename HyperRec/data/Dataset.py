@@ -83,7 +83,7 @@ def data_partition_neg(args):
     #     else:
     #         User_time[u].append(temp_map[m_map[month]]) 
 
-
+    print(len(User))
     for user, items in enumerate(User):
         user += 1
         items = [int(item) for item in items]
