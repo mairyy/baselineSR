@@ -36,7 +36,7 @@ def normalize(inputs,
     Returns:
       A tensor with the same shape and data dtype as `inputs`.
     '''
-    with tf.compat.v1.variable_scope(scope, reuse=reuse):
+    with tf.variable_scope(scope, reuse=reuse):
         inputs_shape = inputs.get_shape()
         params_shape = inputs_shape[-1:]
     
@@ -113,12 +113,12 @@ def embedding(inputs,
       [ 1.22204471 -0.96587461]]]    
     ```    
     '''
-    with tf.compat.v1.variable_scope(scope, reuse=reuse):
-        lookup_table = tf.compat.v1.get_variable('lookup_table',
+    with tf.variable_scope(scope, reuse=reuse):
+        lookup_table = tf.get_variable('lookup_table',
                                        dtype=tf.float32,
                                        shape=[vocab_size, num_units],
                                        #initializer=tf.contrib.layers.xavier_initializer(),
-                                       regularizer=tf.compat.v1.estimator.layers.l2_regularizer(l2_reg))
+                                       regularizer=tf.contrib.layers.l2_regularizer(l2_reg))
         if zero_pad:
             lookup_table = tf.concat((tf.zeros(shape=[1, num_units]),
                                       lookup_table[1:, :]), 0)
@@ -157,7 +157,7 @@ def multihead_attention(queries,
     Returns
       A 3d tensor with shape of (N, T_q, C)  
     '''
-    with tf.compat.v1.variable_scope(scope, reuse=reuse):
+    with tf.variable_scope(scope, reuse=reuse):
         # Set the fall back option for num_units
         if num_units is None:
             num_units = queries.get_shape().as_list[-1]
@@ -243,7 +243,7 @@ def feedforward(inputs,
     Returns:
       A 3d tensor with the same shape and dtype as inputs
     '''
-    with tf.compat.v1.variable_scope(scope, reuse=reuse):
+    with tf.variable_scope(scope, reuse=reuse):
         # Inner layer
         params = {"inputs": inputs, "filters": num_units[0], "kernel_size": 1,
                   "activation": tf.nn.relu, "use_bias": True}

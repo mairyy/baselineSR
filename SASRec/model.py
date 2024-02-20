@@ -1,20 +1,18 @@
 from modules import *
 
-tf.to_float = lambda x: tf.cast(x, tf.float32)
 
 class Model():
     def __init__(self, usernum, itemnum, args, reuse=None):
-        tf.compat.v1.disable_eager_execution() #<--- Disable eager execution
-        self.is_training = tf.compat.v1.placeholder(tf.bool, shape=())
-        self.u = tf.compat.v1.placeholder(tf.int32, shape=(None))
-        self.input_seq = tf.compat.v1.placeholder(tf.int32, shape=(None, args.maxlen))
-        self.pos = tf.compat.v1.placeholder(tf.int32, shape=(None, args.maxlen))
-        self.neg = tf.compat.v1.placeholder(tf.int32, shape=(None, args.maxlen))
+        self.is_training = tf.placeholder(tf.bool, shape=())
+        self.u = tf.placeholder(tf.int32, shape=(None))
+        self.input_seq = tf.placeholder(tf.int32, shape=(None, args.maxlen))
+        self.pos = tf.placeholder(tf.int32, shape=(None, args.maxlen))
+        self.neg = tf.placeholder(tf.int32, shape=(None, args.maxlen))
         pos = self.pos
         neg = self.neg
         mask = tf.expand_dims(tf.to_float(tf.not_equal(self.input_seq, 0)), -1)
 
-        with tf.compat.v1.variable_scope("SASRec", reuse=reuse):
+        with tf.variable_scope("SASRec", reuse=reuse):
             # sequence embedding, item embedding table
             self.seq, item_emb_table = embedding(self.input_seq,
                                                  vocab_size=itemnum + 1,
@@ -50,7 +48,7 @@ class Model():
             # Build blocks
 
             for i in range(args.num_blocks):
-                with tf.compat.v1.variable_scope("num_blocks_%d" % i):
+                with tf.variable_scope("num_blocks_%d" % i):
 
                     # Self-attention
                     self.seq = multihead_attention(queries=normalize(self.seq),
@@ -75,7 +73,7 @@ class Model():
         neg_emb = tf.nn.embedding_lookup(item_emb_table, neg)
         seq_emb = tf.reshape(self.seq, [tf.shape(self.input_seq)[0] * args.maxlen, args.hidden_units])
 
-        self.test_item = tf.compat.v1.placeholder(tf.int32, shape=(101))
+        self.test_item = tf.placeholder(tf.int32, shape=(101))
         test_item_emb = tf.nn.embedding_lookup(item_emb_table, self.test_item)
         self.test_logits = tf.matmul(seq_emb, tf.transpose(test_item_emb))
         self.test_logits = tf.reshape(self.test_logits, [tf.shape(self.input_seq)[0], args.maxlen, 101])

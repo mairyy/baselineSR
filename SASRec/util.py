@@ -14,7 +14,7 @@ def data_partition(fname):
     user_test = {}
     # assume user/item index starting from 1
     # f = open('data/%s.txt' % fname, 'r')
-    User = open('data/%s/tst' % fname, 'rb')
+    User = open('data/%s/tst' % fname, 'r')
     # for line in f:
     #     u, i = line.rstrip().split(' ')
     #     u = int(u)
@@ -22,6 +22,7 @@ def data_partition(fname):
     #     usernum = max(u, usernum)
     #     itemnum = max(i, itemnum)
     #     User[u].append(i)
+
     for user, items in enumerate(User):
         items = [int(item) for item in items]
         nfeedback = len(items)
@@ -85,7 +86,7 @@ def evaluate(model, dataset, args, sess):
             NDCG += 1 / np.log2(rank + 2)
             HT += 1
         if valid_user % 100 == 0:
-            print('.')
+            print ('.'),
             sys.stdout.flush()
 
     return NDCG / valid_user, HT / valid_user
@@ -130,7 +131,7 @@ def evaluate_valid(model, dataset, args, sess):
             NDCG += 1 / np.log2(rank + 2)
             HT += 1
         if valid_user % 100 == 0:
-            print('.')
+            print ('.'),
             sys.stdout.flush()
 
     return NDCG / valid_user, HT / valid_user
