@@ -162,11 +162,12 @@ def evaluate(model, dataset, args):
             if idx == -1: break
         rated = set(train[u])
         rated.add(0)
-        item_idx = [test[u][0]]
-        for _ in range(100):
-            t = np.random.randint(1, itemnum + 1)
-            while t in rated: t = np.random.randint(1, itemnum + 1)
-            item_idx.append(t)
+        item_idx = np.array(range(1, itemnum+1))
+        # item_idx = [test[u][0]]
+        # for _ in range(100):
+        #     t = np.random.randint(1, itemnum + 1)
+        #     while t in rated: t = np.random.randint(1, itemnum + 1)
+        #     item_idx.append(t)
 
         predictions = -model.predict(*[np.array(l) for l in [[u], [seq], item_idx]])
         predictions = predictions[0] # - for 1st argsort DESC
