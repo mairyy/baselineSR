@@ -57,13 +57,13 @@ def data_partition_neg(args):
         cur_u = u
         if i in mapp:
             if cur_u == pre_u:
-                # tmp = [int(mapp[i]), t]
-                raw[usernum+1][int(mapp[i])] = t
+                tmp = [int(mapp[i]), t]
+                raw[usernum+1].append(tmp)
             else:
                 pre_u = cur_u
                 usernum += 1
-                # tmp = [int(mapp[i]), t]
-                raw[usernum+1][int(mapp[i])] = t
+                tmp = [int(mapp[i]), t]
+                raw[usernum+1].append(tmp)
     #     u = int(u)
     #     i = int(i)
         # year = int(datetime.datetime.fromtimestamp(int(t)).strftime("%Y")) # Day of the year as a decimal number [001,366]
@@ -91,7 +91,9 @@ def data_partition_neg(args):
         maxinlist = max(items)
         itemnum = max(maxinlist, itemnum)
         for item in items:
-            t = raw[user][item]
+            for i in raw[user]:
+                if item == i[0]:
+                    t = i[1]
             year = int(datetime.datetime.fromtimestamp(int(t)).strftime("%Y")) # Day of the year as a decimal number [001,366]
             month = int(datetime.datetime.fromtimestamp(int(t)).strftime("%m"))
             temp_map = t_map[year]
@@ -149,6 +151,6 @@ def data_partition_neg(args):
         sequences[user][:] = neg_test
 
     neg_test = sequences.copy()
-
+    print('u i', usernum, itemnum)
     return [user_train, user_valid, user_train_valid, user_test, (user_train_time, user_valid_time, \
         user_train_valid_time, user_test_time, time_set_train, time_set_test), neg_test, itemnum+1, usernum+1]
