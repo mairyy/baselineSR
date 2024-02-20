@@ -5,7 +5,7 @@ import scipy.sparse as sp
 
 from base import TransformerNet
 from layers import HGNN_conv
-
+tf.disable_eager_execution()
 def log2(x):
     numerator = tf.log(x)
     denominator = tf.log(tf.constant(2, dtype=numerator.dtype))
