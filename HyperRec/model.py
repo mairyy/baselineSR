@@ -103,15 +103,15 @@ class NeuralSeqRecommender(object):
         self.item_embedding = item_embedding = tf.get_variable('item_embedding', \
                                 shape=(self.n_items, self.args.emsize), \
                                 dtype=tf.float32, \
-                                regularizer=tf.contrib.layers.l2_regularizer(self.args.l2_reg), \
-                                initializer=tf.contrib.layers.xavier_initializer())
+                                regularizer=tf.estimator.layers.l2_regularizer(self.args.l2_reg), \
+                                initializer=tf.estimator.layers.xavier_initializer())
         
 
         self.user_embedding = user_embedding =  tf.get_variable('user_embedding', \
                         shape=(self.n_users, self.args.emsize), \
                         dtype=tf.float32, \
-                        regularizer=tf.contrib.layers.l2_regularizer(self.args.l2_reg), \
-                        initializer=tf.contrib.layers.xavier_initializer())
+                        regularizer=tf.estimator.layers.l2_regularizer(self.args.l2_reg), \
+                        initializer=tf.estimator.layers.xavier_initializer())
 
         self.item_embedding = tf.concat((tf.zeros(shape=[1, self.args.emsize]),
                                       item_embedding[1:, :]), 0)
