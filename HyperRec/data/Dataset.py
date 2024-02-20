@@ -132,7 +132,7 @@ def data_partition_neg(args):
 
 
     skip = 0
-    neg_f = data_path + args.data + '/' + args.data + '_test_neg.txt'
+    neg_f = data_path + '/' + 'newAmazon_test_neg.txt'
     with open(neg_f, 'r') as file:
         for line in file:
             skip += 1
