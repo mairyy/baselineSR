@@ -86,7 +86,6 @@ def data_partition_neg(args):
     print(len(User))
     for user, items in enumerate(User):
         user += 1
-        print(user)
         items = [int(item) for item in items]
         nfeedback = len(items)
         maxinlist = max(items)
@@ -103,7 +102,7 @@ def data_partition_neg(args):
             else:
                 User_time[user].append(temp_map[m_map[month]]) 
         if nfeedback < 3:
-            user_train[user] = User[user]
+            user_train[user] = User[user-1]
             user_valid[user] = []
             user_test[user] = []
 
@@ -111,13 +110,13 @@ def data_partition_neg(args):
             user_valid_time[user] = []
             user_test_time[user] = []
         else:
-            user_train[user] = User[user][:-2]
+            user_train[user] = User[user-1][:-2]
             user_valid[user] = []
-            user_valid[user].append(User[user][-2])
+            user_valid[user].append(User[user-1][-2])
             user_test[user] = []
-            user_test[user].append(User[user][-1])
+            user_test[user].append(User[user-1][-1])
             
-            neg_test[user] = [User[user][-1]]
+            neg_test[user] = [User[user-1][-1]]
 
             user_train_time[user] = User_time[user][:-2]
             time_set_train.update(user_train_time[user])
