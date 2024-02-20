@@ -83,9 +83,9 @@ train_dic = {}
 for i in train_set:
 	train_dic[i] = set(train_set[i])
 
-neg_test_dy = np.zeros((num_users, 101),dtype=np.int64)
+neg_test_dy = np.zeros((num_users, num_items),dtype=np.int64)
 for i in range(1,num_users):
-	for j in range(101):
+	for j in range(num_items):
 		neg_test_dy[i][j] = subgraphs_sequence_i[neg_test[i][j]][-1]
 
 
