@@ -150,6 +150,7 @@ def data_partition_neg(args):
     #     sequences[user][:] = neg_test[user]
     #     print(len(sequences[user][:]), len(neg_test[user]))
     neg_test = list(np.arange(1, itemnum+1))
+    print('u i', usernum, itemnum)
     sequences = np.zeros((usernum + 1, usernum+1),dtype=np.int64)
     for user in range(1, usernum+1):
         print(len(sequences[user][:]), len(neg_test))
@@ -158,6 +159,5 @@ def data_partition_neg(args):
 
     neg_test = sequences.copy()
     print(type(neg_test))
-    print('u i', usernum, itemnum)
     return [user_train, user_valid, user_train_valid, user_test, (user_train_time, user_valid_time, \
         user_train_valid_time, user_test_time, time_set_train, time_set_test), neg_test, itemnum+1, usernum+1]
