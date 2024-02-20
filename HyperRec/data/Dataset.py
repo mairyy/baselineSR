@@ -146,9 +146,8 @@ def data_partition_neg(args):
             if(u <= 22363):
                 neg_test[u].append(i)
     sequences = np.zeros((usernum + 1, 101),dtype=np.int64)
-    for user in range(1, usernum+1):
+    for user in range(1, usernum):
         sequences[user][:] = neg_test[user]
-        print(type(neg_test[user]))
     # neg_test = list(np.arange(1, itemnum+1))
     # sequences = np.zeros((usernum + 1, usernum+1),dtype=np.int64)
     # for user in range(1, usernum+1):
