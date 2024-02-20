@@ -76,7 +76,7 @@ class NeuralSeqRecommender(object):
     def _init_weights(self):
     	self.all_weights = {}
 
-    	initializer = tf.contrib.layers.xavier_initializer()
+    	initializer = tf.estimator.layers.xavier_initializer()
 
     	for i in self.sorted_time:
     		for n in range(self.n_hyper):
