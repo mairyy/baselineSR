@@ -158,7 +158,7 @@ def data_partition_neg(args):
     # for user in User:
     #     sequences[user][:] = neg_test[user]
 
-    neg_test = list(np.arange(1, itemnum))
+    neg_test = list(np.arange(itemnum+1))
     sequences = np.zeros((usernum + 1, itemnum+1),dtype=np.int64)
     for user in range(1, usernum+1):
         sequences[user][:] = neg_test
