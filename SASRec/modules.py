@@ -118,7 +118,7 @@ def embedding(inputs,
                                        dtype=tf.float32,
                                        shape=[vocab_size, num_units],
                                        #initializer=tf.contrib.layers.xavier_initializer(),
-                                       regularizer=tf.contrib.layers.l2_regularizer(l2_reg))
+                                       regularizer=tf.compat.v1.estimator.layers.l2_regularizer(l2_reg))
         if zero_pad:
             lookup_table = tf.concat((tf.zeros(shape=[1, num_units]),
                                       lookup_table[1:, :]), 0)
