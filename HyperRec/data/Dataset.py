@@ -53,8 +53,11 @@ def data_partition_neg(args):
     for uid, line in enumerate(f):
         u, i, r, t = line.rstrip().split(',')
         year = int(datetime.datetime.fromtimestamp(int(t)).strftime("%Y")) # Day of the year as a decimal number [001,366]
-        month = int(datetime.datetime.fromtimestamp(int(t)).strftime("%m"))        
-        cur_u = u
+        month = int(datetime.datetime.fromtimestamp(int(t)).strftime("%m"))  
+        print(uid)      
+        if uid == 0:
+            cur_u = u
+            pre_u = cur_u
         print('1', pre_u, cur_u)
         if i in mapp:
             if cur_u == pre_u:
