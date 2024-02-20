@@ -131,25 +131,29 @@ def data_partition_neg(args):
         user_train_valid_time[user] = user_train_time[user] + user_valid_time[user]
 
 
-    # skip = 0
-    # neg_f = data_path + args.data + '/' + args.data + '_test_neg.txt'
-    # with open(neg_f, 'r') as file:
-    #     for line in file:
-    #         skip += 1
-    #         if skip==1:
-    #             continue
-    #         user_id, item_id = line.rstrip().split('\t')
-    #         u = int(user_id)
-    #         i = int(item_id)
-    #         usernum = max(u, usernum)
-    #         itemnum = max(i, itemnum)
+    skip = 0
+    neg_f = data_path + args.data + '/' + args.data + '_test_neg.txt'
+    with open(neg_f, 'r') as file:
+        for line in file:
+            skip += 1
+            if skip==1:
+                continue
+            user_id, item_id = line.rstrip().split('\t')
+            u = int(user_id)
+            i = int(item_id)
+            usernum = max(u, usernum)
+            itemnum = max(i, itemnum)
 
-    #         neg_test[u].append(i)
-    neg_test = list(np.arange(1, itemnum+1))
-    sequences = np.zeros((usernum + 1, usernum+1),dtype=np.int64)
+            neg_test[u].append(i)
+    sequences = np.zeros((usernum + 1, 101),dtype=np.int64)
     for user in range(1, usernum+1):
-        sequences[user+1][:] = neg_test
-
+        sequences[user][:] = neg_test[user]
+        print(neg_test[user])
+    # neg_test = list(np.arange(1, itemnum+1))
+    # sequences = np.zeros((usernum + 1, usernum+1),dtype=np.int64)
+    # for user in range(1, usernum+1):
+    #     sequences[user][:] = neg_test
+    print(sequences, type(sequences))
     neg_test = sequences.copy()
     print('u i', usernum, itemnum)
     return [user_train, user_valid, user_train_valid, user_test, (user_train_time, user_valid_time, \
