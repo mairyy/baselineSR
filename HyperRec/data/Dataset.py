@@ -29,10 +29,7 @@ def data_partition_neg(args):
     user_train_valid_time = {}
     user_test_time = {}
     # assume user/item index starting from 1
-    # path_to_data = data_path + args.data + '/' + args.data + '_all.txt'
-    path_to_data = data_path + args.data + '/' + 'tst'
-    path_data_csv = data_path + args.data + '/' + 'ratings_Beauty.csv'
-    path_to_map = data_path + args.data + '/' + 'map'
+    path_to_data = data_path + args.data + '/' + 'all_seq_with_time'
 
     # for Amazon    
     t_map = {1997:[1], 1998:[1], 1999:[1], 2000:[1], 2001:[1], 2002:[1], 2003:[1], 2004:[1], 2005:[1], 2006:[1], 2007:[1], 2008:[1], 2009:[2,3], 2010:[4,5], \
@@ -41,70 +38,33 @@ def data_partition_neg(args):
      
     m_map = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:1, 8:1, 9:1, 10:1, 11:1, 12:1}
 
-    f = open(path_data_csv, 'r')
     with open(path_to_data, 'rb') as out:
-        User = pickle.load(out)
-    with open(path_to_map, 'rb') as out:
-        mapp = pickle.load(out)
-
-    raw = defaultdict(list)
-    pre_u = ''
-    cur_u = ''
-    for uid, line in enumerate(f):
-        u, i, r, t = line.rstrip().split(',')
+        f = pickle.load(out)
+    # f = open(path_to_data, 'r')
+    for line in f:
+        [u, i, t] = line
+        # u, i, t, d = line.rstrip().split('\t')
+        u = int(u)
+        i = int(i)
         year = int(datetime.datetime.fromtimestamp(int(t)).strftime("%Y")) # Day of the year as a decimal number [001,366]
-        month = int(datetime.datetime.fromtimestamp(int(t)).strftime("%m")) 
-        cur_u = u
-        if uid == 0:
-            pre_u = cur_u
-        if i in mapp:
-            if cur_u == pre_u:
-                tmp = [int(mapp[i]), t]
-                raw[usernum+1].append(tmp)
-            else:
-                pre_u = cur_u
-                usernum += 1
-                tmp = [int(mapp[i]), t]
-                raw[usernum+1].append(tmp)
-    #     u = int(u)
-    #     i = int(i)
-        # year = int(datetime.datetime.fromtimestamp(int(t)).strftime("%Y")) # Day of the year as a decimal number [001,366]
-        # month = int(datetime.datetime.fromtimestamp(int(t)).strftime("%m"))
+        month = int(datetime.datetime.fromtimestamp(int(t)).strftime("%m"))
 
         
-        # usernum = max(uid+1, usernum)
-        # tmp = defaultdict(list)
-        # tmp[i] = t
-        # item_time[uid+1].append(tmp)
-    #     itemnum = max(i, itemnum)
-    #     User[u].append(i)   
+        usernum = max(u, usernum)
+        itemnum = max(i, itemnum)
+        User[u].append(i)   
 
-        # temp_map = t_map[year]
-    #     if len(temp_map) == 1:
-    #         User_time[u].append(temp_map[0])
-    #     else:
-    #         User_time[u].append(temp_map[m_map[month]]) 
+        temp_map = t_map[year]
+        if len(temp_map) == 1:
+            User_time[u].append(temp_map[0])
+        else:
+            User_time[u].append(temp_map[m_map[month]]) 
 
-    print(len(User))
-    for user, items in enumerate(User):
-        user += 1
-        items = [int(item) for item in items]
-        nfeedback = len(items)
-        maxinlist = max(items)
-        itemnum = max(maxinlist, itemnum)
-        for item in items:
-            for i in raw[user]:
-                if item == i[0]:
-                    t = i[1]
-            year = int(datetime.datetime.fromtimestamp(int(t)).strftime("%Y")) # Day of the year as a decimal number [001,366]
-            month = int(datetime.datetime.fromtimestamp(int(t)).strftime("%m"))
-            temp_map = t_map[year]
-            if len(temp_map) == 1:
-                User_time[user].append(temp_map[0])
-            else:
-                User_time[user].append(temp_map[m_map[month]]) 
+
+    for user in User:
+        nfeedback = len(User[user])
         if nfeedback < 3:
-            user_train[user] = User[user-1]
+            user_train[user] = User[user]
             user_valid[user] = []
             user_test[user] = []
 
@@ -112,13 +72,13 @@ def data_partition_neg(args):
             user_valid_time[user] = []
             user_test_time[user] = []
         else:
-            user_train[user] = User[user-1][:-2]
+            user_train[user] = User[user][:-2]
             user_valid[user] = []
-            user_valid[user].append(User[user-1][-2])
+            user_valid[user].append(User[user][-2])
             user_test[user] = []
-            user_test[user].append(User[user-1][-1])
+            user_test[user].append(User[user][-1])
             
-            neg_test[user] = [User[user-1][-1]]
+            neg_test[user] = [User[user][-1]]
 
             user_train_time[user] = User_time[user][:-2]
             time_set_train.update(user_train_time[user])
@@ -134,7 +94,7 @@ def data_partition_neg(args):
 
 
     # skip = 0
-    # neg_f = data_path + '/' + 'newAmazon_test_neg.txt'
+    # neg_f = data_path + args.data + '/' + args.data + '_test_neg.txt'
     # with open(neg_f, 'r') as file:
     #     for line in file:
     #         skip += 1
@@ -145,12 +105,13 @@ def data_partition_neg(args):
     #         i = int(item_id)
     #         usernum = max(u, usernum)
     #         itemnum = max(i, itemnum)
-    #         if(u <= 22363):
-    #             neg_test[u].append(i)
+
+    #         neg_test[u].append(i)
+
     # sequences = np.zeros((usernum + 1, 101),dtype=np.int64)
-    # for user in range(1, usernum):
+    # for user in User:
     #     sequences[user][:] = neg_test[user]
-    #     print(len(sequences[user][:]), len(neg_test[user]))
+
     neg_test = list(np.arange(1, itemnum+1))
     print('u i', usernum, itemnum)
     sequences = np.zeros((usernum + 1, usernum+1),dtype=np.int64)
