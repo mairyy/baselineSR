@@ -143,8 +143,8 @@ def data_partition_neg(args):
             i = int(item_id)
             usernum = max(u, usernum)
             itemnum = max(i, itemnum)
-
-            neg_test[u].append(i)
+            if(u <= 22363):
+                neg_test[u].append(i)
     sequences = np.zeros((usernum + 1, 101),dtype=np.int64)
     print(sequences, type(sequences), len(sequences))
     for user in range(1, usernum+1):
