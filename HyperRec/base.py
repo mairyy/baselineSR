@@ -195,7 +195,7 @@ class TransformerNet(object):
 
     def position_embedding(self, inputs, maxlen, num_units, l2_reg=0.0, scope="pos_embedding", reuse=None, zero_pad=False):
         with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
-            pos_embedding_table = tf.get_variable('pos_embedding_table', dtype=tf.float32, shape=[maxlen, num_units], regularizer=tf.contrib.layers.l2_regularizer(l2_reg))
+            pos_embedding_table = tf.get_variable('pos_embedding_table', dtype=tf.float32, shape=[maxlen, num_units], regularizer=tf.keras.regularizers.L2(l2=l2_reg))
             if zero_pad:
                 pos_embedding_table = tf.concat((tf.zeros(shape=[1, num_units]),
                                           pos_embedding_table[1:, :]), 0)
