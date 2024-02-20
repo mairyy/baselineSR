@@ -140,9 +140,9 @@ def data_partition(fname):
 def evaluate(model, dataset, args):
     [train, valid, test, usernum, itemnum] = copy.deepcopy(dataset)
 
-    NDCG = 0.0
-    HT = 0.0
+    NDCG5, NDCG10, NDCG20 = 0.0, 0.0, 0.0
     valid_user = 0.0
+    HT5, HT10, HT20 = 0.0, 0.0, 0.0
 
     if usernum>10000:
         users = random.sample(range(1, usernum + 1), 10000)
@@ -176,23 +176,32 @@ def evaluate(model, dataset, args):
 
         valid_user += 1
 
+        if rank < 5:
+            NDCG5 += 1 / np.log2(rank + 2)
+            HT5 += 1
+
         if rank < 10:
-            NDCG += 1 / np.log2(rank + 2)
-            HT += 1
+            NDCG10 += 1 / np.log2(rank + 2)
+            HT10 += 1
+
+        if rank < 20:
+            NDCG20 += 1 / np.log2(rank + 2)
+            HT20 += 1
+
         if valid_user % 100 == 0:
             print('.', end="")
             sys.stdout.flush()
 
-    return NDCG / valid_user, HT / valid_user
+    return NDCG5 / valid_user, HT5 / valid_user, NDCG10 / valid_user, HT10 / valid_user, NDCG20 / valid_user, HT20 / valid_user
 
 
 # evaluate on val set
 def evaluate_valid(model, dataset, args):
     [train, valid, test, usernum, itemnum] = copy.deepcopy(dataset)
 
-    NDCG = 0.0
+    NDCG5, NDCG10, NDCG20 = 0.0, 0.0, 0.0
     valid_user = 0.0
-    HT = 0.0
+    HT5, HT10, HT20 = 0.0, 0.0, 0.0
     if usernum>10000:
         users = random.sample(range(1, usernum + 1), 10000)
     else:
@@ -209,11 +218,12 @@ def evaluate_valid(model, dataset, args):
 
         rated = set(train[u])
         rated.add(0)
-        item_idx = [valid[u][0]]
-        for _ in range(100):
-            t = np.random.randint(1, itemnum + 1)
-            while t in rated: t = np.random.randint(1, itemnum + 1)
-            item_idx.append(t)
+        item_idx = np.array(range(1, itemnum+1))
+        # item_idx = [test[u][0]]
+        # for _ in range(100):
+        #     t = np.random.randint(1, itemnum + 1)
+        #     while t in rated: t = np.random.randint(1, itemnum + 1)
+        #     item_idx.append(t)
 
         predictions = -model.predict(*[np.array(l) for l in [[u], [seq], item_idx]])
         predictions = predictions[0]
@@ -222,11 +232,20 @@ def evaluate_valid(model, dataset, args):
 
         valid_user += 1
 
+        if rank < 5:
+            NDCG5 += 1 / np.log2(rank + 2)
+            HT5 += 1
+
         if rank < 10:
-            NDCG += 1 / np.log2(rank + 2)
-            HT += 1
+            NDCG10 += 1 / np.log2(rank + 2)
+            HT10 += 1
+
+        if rank < 20:
+            NDCG20 += 1 / np.log2(rank + 2)
+            HT20 += 1
+
         if valid_user % 100 == 0:
             print('.', end="")
             sys.stdout.flush()
 
-    return NDCG / valid_user, HT / valid_user
+    return NDCG5 / valid_user, HT5 / valid_user, NDCG10 / valid_user, HT10 / valid_user, NDCG20 / valid_user, HT20 / valid_user
