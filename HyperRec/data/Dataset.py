@@ -53,8 +53,7 @@ def data_partition_neg(args):
     for uid, line in enumerate(f):
         u, i, r, t = line.rstrip().split(',')
         year = int(datetime.datetime.fromtimestamp(int(t)).strftime("%Y")) # Day of the year as a decimal number [001,366]
-        month = int(datetime.datetime.fromtimestamp(int(t)).strftime("%m"))  
-        print(uid)      
+        month = int(datetime.datetime.fromtimestamp(int(t)).strftime("%m")) 
         if uid == 0:
             cur_u = u
             pre_u = cur_u
