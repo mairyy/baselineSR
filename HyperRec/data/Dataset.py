@@ -145,10 +145,10 @@ def data_partition_neg(args):
     #         itemnum = max(i, itemnum)
 
     #         neg_test[u].append(i)
-    neg_test = np.arange(1, itemnum+1)
+    neg_test = list(np.arange(1, itemnum+1))
     sequences = np.zeros((usernum + 1, usernum+1),dtype=np.int64)
     for user in User:
-        sequences[user][:] = neg_test
+        sequences[user+1][:] = neg_test
 
     neg_test = sequences.copy()
     print('u i', usernum, itemnum)
