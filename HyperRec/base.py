@@ -3,7 +3,7 @@
 
 import tensorflow.compat.v1 as tf
 import numpy as np
-from tensorflow.contrib import rnn
+from tensorflow.compat.v1.contrib import rnn
 
 
 def normalize(inputs, 
