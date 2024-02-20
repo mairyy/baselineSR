@@ -1,7 +1,7 @@
 # Part of this file is derived from 
 # https://github.com/DeepGraphLearning/RecommenderSystems
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import numpy as np
 from tensorflow.contrib import rnn
 

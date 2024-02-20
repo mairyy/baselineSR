@@ -3,7 +3,7 @@ import warnings
 warnings.filterwarnings('ignore',category=FutureWarning)
 
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import sys
 from tqdm import tqdm
 import math
