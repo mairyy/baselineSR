@@ -86,6 +86,7 @@ def data_partition_neg(args):
     print(len(User))
     for user, items in enumerate(User):
         user += 1
+        print(user)
         items = [int(item) for item in items]
         nfeedback = len(items)
         maxinlist = max(items)
