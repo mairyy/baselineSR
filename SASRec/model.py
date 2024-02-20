@@ -14,7 +14,7 @@ class Model():
         neg = self.neg
         mask = tf.expand_dims(tf.to_float(tf.not_equal(self.input_seq, 0)), -1)
 
-        with tf.variable_scope("SASRec", reuse=reuse):
+        with tf.compat.v1.variable_scope("SASRec", reuse=reuse):
             # sequence embedding, item embedding table
             self.seq, item_emb_table = embedding(self.input_seq,
                                                  vocab_size=itemnum + 1,
@@ -50,7 +50,7 @@ class Model():
             # Build blocks
 
             for i in range(args.num_blocks):
-                with tf.variable_scope("num_blocks_%d" % i):
+                with tf.compat.v1.variable_scope("num_blocks_%d" % i):
 
                     # Self-attention
                     self.seq = multihead_attention(queries=normalize(self.seq),
