@@ -84,7 +84,7 @@ def data_partition(fname):
     # assume user/item index starting from 1
         # f = open('data/%s.txt' % fname, 'r')
     with open('data/%s/tst' % fname, 'rb') as out:
-        User - pickle.load(out)
+        User = pickle.load(out)
     # for line in f:
     #     u, i = line.rstrip().split(' ')
     #     u = int(u)
