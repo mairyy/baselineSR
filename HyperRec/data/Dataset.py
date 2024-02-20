@@ -148,6 +148,7 @@ def data_partition_neg(args):
             print(type(neg_test[u]))
             break
     sequences = np.zeros((usernum + 1, 101),dtype=np.int64)
+    print(sequences, type(sequences))
     for user in range(1, usernum+1):
         sequences[user][:] = neg_test[user]
         print(neg_test[user])
