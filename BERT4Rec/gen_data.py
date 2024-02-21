@@ -7,7 +7,7 @@ import random
 import pickle
 import collections
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 from util import *
 from vocab import *

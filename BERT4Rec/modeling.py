@@ -12,7 +12,7 @@ import json
 import math
 import re
 import six
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 
 class BertConfig(object):
