@@ -251,7 +251,7 @@ def create_training_instances(all_documents_raw,
             if len(item_seq) <= max_num_tokens:
                 all_documents[user] = [item_seq]
             else:
-                beg_idx = [range(len(item_seq)-max_num_tokens, 0, -sliding_step)]
+                beg_idx = list(range(len(item_seq)-max_num_tokens, 0, -sliding_step))
                 beg_idx.append(0)
                 all_documents[user] = [item_seq[i:i + max_num_tokens] for i in beg_idx[::-1]]
 
