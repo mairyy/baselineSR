@@ -263,7 +263,7 @@ def create_training_instances(all_documents_raw,
                     all_documents, user, max_seq_length))
         print("num of instance:{}".format(len(instances)))
     else:
-        start_time = time.clock()
+        start_time = time.process_time()
         pool = multiprocessing.Pool(processes=pool_size)
         instances = []
         print("document num: {}".format(len(all_documents)))
@@ -287,7 +287,7 @@ def create_training_instances(all_documents_raw,
                     all_documents, user, max_seq_length, short_seq_prob,
                     masked_lm_prob, max_predictions_per_seq, vocab, rng))
 
-        print("num of instance:{}; time:{}".format(len(instances), time.clock() - start_time))
+        print("num of instance:{}; time:{}".format(len(instances), time.process_time() - start_time))
     rng.shuffle(instances)
     return instances
 
@@ -296,13 +296,13 @@ def create_instances_threading(all_documents, user, max_seq_length, short_seq_pr
                                masked_lm_prob, max_predictions_per_seq, vocab, rng,
                                mask_prob, step):
     cnt = 0;
-    start_time = time.clock()
+    start_time = time.process_time()
     instances = []
     for user in all_documents:
         cnt += 1;
         if cnt % 1000 == 0:
-            print("step: {}, name: {}, step: {}, time: {}".format(step, multiprocessing.current_process().name, cnt, time.clock()-start_time))
-            start_time = time.clock()
+            print("step: {}, name: {}, step: {}, time: {}".format(step, multiprocessing.current_process().name, cnt, time.process_time()-start_time))
+            start_time = time.process_time()
         instances.extend(create_instances_from_document_train(
             all_documents, user, max_seq_length, short_seq_prob,
             masked_lm_prob, max_predictions_per_seq, vocab, rng,
