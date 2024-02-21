@@ -218,7 +218,7 @@ def evaluate_valid(model, dataset, args):
 
         rated = set(train[u])
         rated.add(0)
-        item_idx = np.array(range(1, itemnum+1))
+        item_idx = list(range(1, itemnum+1))
         # item_idx = [test[u][0]]
         # for _ in range(100):
         #     t = np.random.randint(1, itemnum + 1)
