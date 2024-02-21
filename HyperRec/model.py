@@ -231,13 +231,13 @@ class NeuralSeqRecommender(object):
                 ) / tf.reduce_sum(istarget)
 
                
-        ct_vec_batch = tf.tile(ct_vec_last, [12102, 1])
-        self.test_item_batch = tf.placeholder(tf.int32, shape=(None, 12102), name='test_item_batch')
+        ct_vec_batch = tf.tile(ct_vec_last, [101, 1])
+        self.test_item_batch = tf.placeholder(tf.int32, shape=(None, 101), name='test_item_batch')
         _test_item_emb_batch = tf.nn.embedding_lookup(self.item_embedding, self.test_item_batch)
         _test_item_emb_batch = tf.transpose(_test_item_emb_batch, perm=[1, 0, 2])
         test_item_emb_batch = tf.reshape(_test_item_emb_batch, (-1, self.args.emsize))
 
-        self.test_item_batch_dy = tf.placeholder(tf.int32, shape=(None, 12102), name='test_item_batch_dy')
+        self.test_item_batch_dy = tf.placeholder(tf.int32, shape=(None, 101), name='test_item_batch_dy')
         _test_item_emb_batch_dy = tf.nn.embedding_lookup(emb_list, self.test_item_batch_dy)
         _test_item_emb_batch_dy = tf.transpose(_test_item_emb_batch_dy, perm=[1, 0, 2])
         test_item_emb_batch_dy = tf.reshape(_test_item_emb_batch_dy, (-1, self.args.emsize))
@@ -246,7 +246,7 @@ class NeuralSeqRecommender(object):
         test_item_emb_batch_joint = test_item_emb_batch + test_item_emb_batch_dy
 
         self.test_logits_batch = tf.reduce_sum(ct_vec_batch*test_item_emb_batch_joint, -1) 
-        self.test_logits_batch = tf.transpose(tf.reshape(self.test_logits_batch, [12102, tf.shape(self.inp)[0]]))
+        self.test_logits_batch = tf.transpose(tf.reshape(self.test_logits_batch, [101, tf.shape(self.inp)[0]]))
 
                
         self.loss = loss
