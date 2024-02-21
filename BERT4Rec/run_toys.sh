@@ -1,5 +1,5 @@
 CKPT_DIR="/path/BERT4Rec"
-dataset_name="beauty"
+dataset_name="toys"
 max_seq_length=50
 max_predictions_per_seq=30
 masked_lm_prob=0.6
