@@ -127,8 +127,8 @@ class EvalHooks(tf.train.SessionRunHook):
     def begin(self):
         self.valid_user = 0.0
 
-        self.ndcg_1 = 0.0
-        self.hit_1 = 0.0
+        self.ndcg_20 = 0.0
+        self.hit_20 = 0.0
         self.ndcg_5 = 0.0
         self.hit_5 = 0.0
         self.ndcg_10 = 0.0
@@ -160,8 +160,8 @@ class EvalHooks(tf.train.SessionRunHook):
 
     def end(self, session):
         print(
-            "ndcg@1:{}, hit@1:{}， ndcg@5:{}, hit@5:{}, ndcg@10:{}, hit@10:{}, ap:{}, valid_user:{}".
-            format(self.ndcg_1 / self.valid_user, self.hit_1 / self.valid_user,
+            "ndcg@20:{}, hit@20:{}， ndcg@5:{}, hit@5:{}, ndcg@10:{}, hit@10:{}, ap:{}, valid_user:{}".
+            format(self.ndcg_20 / self.valid_user, self.hit_20 / self.valid_user,
                    self.ndcg_5 / self.valid_user, self.hit_5 / self.valid_user,
                    self.ndcg_10 / self.valid_user,
                    self.hit_10 / self.valid_user, self.ap / self.valid_user,
@@ -216,15 +216,18 @@ class EvalHooks(tf.train.SessionRunHook):
                 print('.', end='')
                 sys.stdout.flush()
 
-            if rank < 1:
-                self.ndcg_1 += 1
-                self.hit_1 += 1
+            # if rank < 1:
+            #     self.ndcg_1 += 1
+            #     self.hit_1 += 1
             if rank < 5:
                 self.ndcg_5 += 1 / np.log2(rank + 2)
                 self.hit_5 += 1
             if rank < 10:
                 self.ndcg_10 += 1 / np.log2(rank + 2)
                 self.hit_10 += 1
+            if rank < 20:
+                self.ndcg_20 += 1 / np.log2(rank + 2)
+                self.hit_20 += 1
 
             self.ap += 1.0 / (rank + 1)
 
